@@ -5,6 +5,8 @@ SHELL = /bin/bash
 ###
 # names of files you want made and published to github (in gh-pages) should be in html-these-files.mk
 # which lives in the master branch and is automatically pushed over
+# modified from http://github.com/petrelharp/skelml
+
 include config.mk
 
 PANDOC_HTML_OPTS = -c resources/pandoc.css

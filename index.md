@@ -11,22 +11,24 @@ In a nutshell, this is a regional meeting designed to offer a targeted avenue fo
 
 We hope to offer a venue in which everyone from undergraduates to faculty members can present their work and seek advice and collaboration. We also hope to inform members from Southern California labs and research groups about research and job opportunities present at other SoCal institutions. Are you an undergraduate looking to apply to graduate school or a graduate student looking for a postdoctoral position? Or a faculty member looking for new lab members? SCalE might be the place for you even if you don’t have something ready to present.
 
-To start off with, the meeting will consist of around half a dozen talks and as many posters as people would like to present. Registration will be free. Selection of talks will allow for a mix of career stages ranging from undergraduate through faculty. We are happy to listen to both preliminary work as well as more polished projects. And anybody can present a poster.
+The meeting will consist of around half a dozen talks and as many posters as people would like to present. Registration is free. 
+Selection of talks will allow for a mix of career stages ranging from undergraduate through faculty. 
+We are happy to listen to both preliminary work as well as more polished projects. And anybody can present a poster.
 
 Here is a sampling of the topics we are interested in:
 
-    population genetics;
-    quantitative genetics;
-    experimental evolution;
-    comparative genomics;
-    molecular evolution;
-    molecular systematics;
-    genetics of natural variation;
-    speciation genetics/genomics;
-    molecular phylogenetics;
-    genetics/genomics of adaptation;
-    evolutionary bioinformatics;
-    evolutionary genomics.
+*   population genetics;
+*   quantitative genetics;
+*   experimental evolution;
+*   comparative genomics;
+*   molecular evolution;
+*   molecular systematics;
+*   genetics of natural variation;
+*   speciation genetics/genomics;
+*   molecular phylogenetics;
+*   genetics/genomics of adaptation;
+*   evolutionary bioinformatics;
+*   evolutionary genomics.
 
 We are open to all perspectives in evolutionary genetics, ranging from humans to model systems to non-model systems to theory to statistical inference. We are interested in single gene studies as well as comparative population genomics. The only unifying theme is evolutionary genetics and genomics.
 
