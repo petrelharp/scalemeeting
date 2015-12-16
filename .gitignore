@@ -4,3 +4,4 @@ display/*
 *.aux
 *.bbl
 *.blg
+.*.swp
