@@ -1,36 +1,17 @@
-### To set up the gh-pages branch:
-# git checkout --orphan gh-pages
-# (REMOVE FILES LYING AROUND NOW)
-# cp directory-to-gh-pages-stuff/* .
-# git add (STUFF JUST ADDED)
-#
-
-.PHONY : clean publish pdfs setup htmls display skelml.index
+.PHONY : clean publish setup htmls display 
 
 SHELL = /bin/bash
-LATEXML = $(shell which latexml)
-LATEXMLC = $(shell which latexmlc)
-LATEXMLPOST = $(shell which latexmlpost)
 
 ###
 # names of files you want made and published to github (in gh-pages) should be in html-these-files.mk
 # which lives in the master branch and is automatically pushed over
 include config.mk
 
-###
-# stuff for compilers
-LATEXMLFLAGS = 
-LATEXMLPOSTFLAGS = --javascript=resources/LaTeXML-maybeMathjax.js --css=resources/plr-style.css --stylesheet=resources/xsl/LaTeXML-all-xhtml.xsl --javascript=resources/adjust-svg.js
-# uncomment this to split out chapters into separate documents
-# LATEXMLPOSTFLAGS += --split
-
 PANDOC_HTML_OPTS = -c resources/pandoc.css --mathjax=https:////cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 
 MD_HTML = $(patsubst %.md,$(DISPLAYDIR)/%.html,$(MDFILES))
 TEX_HTML = $(patsubst %.tex,$(DISPLAYDIR)/%.html,$(TEXFILES))
 HTMLS = $(MD_HTML) $(TEX_HTML)
-
-PDFS = $(patsubst %.tex,$(DISPLAYDIR)/%.pdf,$(TEXFILES)) $(patsubst %.md,$(DISPLAYDIR)/%.pdf,$(MDFILES))
 
 # hope their head isn't detached
 GITBRANCH := $(shell git symbolic-ref -q --short HEAD)
@@ -44,9 +25,6 @@ display : clean
 
 htmls :
 	make $(HTMLS)
-
-pdfs :
-	make $(PDFS)
 
 
 # update html in the gh-pages branch
@@ -82,54 +60,12 @@ clean :
 	-rm -f *.aux *.log *.bbl *.blg *.out *.toc *.nav *.snm *.vrb texput.* LaTeXML.cache
 	-cd display; rm -f *.aux *.log *.bbl *.blg *.out *.toc *.nav *.snm *.vrb texput.* LaTeXML.cache
 
-# make pdfs locally
-$(DISPLAYDIR)/%.pdf : %.tex %.bbl
-	$(eval FIGS = $(shell grep '\\includegraphics' $*.tex  | sed -e 's/.*\\includegraphics[^{]*{\([^}]*\)\}.*/$(DISPLAYDIR)\/\1.pdf/'))
-	-if [ '$(FIGS)' ]; then \
-		echo 'making $(FIGS)'; \
-		make $(FIGS); \
-	fi
-	export TEXINPUTS=$(DISPLAYDIR):${TEXINPUTS}; while ( pdflatex -output-directory $(DISPLAYDIR) $<;  grep -q "Rerun to get" $(DISPLAYDIR)/$*.log ) do true ; done
-
-%.bbl : %.tex
-	-export TEXINPUTS=$(DISPLAYDIR):${TEXINPUTS}; pdflatex -interaction nonstopmode -output-directory $(DISPLAYDIR) $<
-	-bibtex $(DISPLAYDIR)/$*.aux
-
-
-$(DISPLAYDIR)/%.pdf : %.md
-	pandoc -f markdown -o $@ $<
-
-###
-# latexml stuff
-
 
 
 $(DISPLAYDIR)/%.html : %.md
 	mkdir -p $(DISPLAYDIR)/resources
 	cp resources/pandoc.css $(DISPLAYDIR)/resources
 	pandoc $(PANDOC_HTML_OPTS) -f markdown -o $@ $<
-
-$(DISPLAYDIR)/%.xml : %.bib
-	$(LATEXMLC) --destination=$@ --bibtex $<
-
-$(DISPLAYDIR)/%.xml : %.tex
-	$(LATEXML) $(LATEXMLFLAGS) --destination=$@ $<
-
-$(DISPLAYDIR)/%.html : $(DISPLAYDIR)/%.xml
-	$(eval BIBS = $(shell grep '\\bibliography{' $*.tex \
-		| sed -e 's/.*\\bibliography{\([^}]*\)\}.*/\1/' \
-		| tr ',' '\n' \
-		| sed -e 's/\(..*\)/$(DISPLAYDIR)\/\1.xml/'))
-	@if [ '$(BIBS)' ]; then \
-		echo 'making bibliography $(BIBS)'; \
-		make $(BIBS); \
-	fi
-	# $(eval FIGS = $(shell grep '\\includegraphics' $*.tex  | sed -e 's/.*\\includegraphics[^{]*{\([^}]*\)\}.*/$(DISPLAYDIR)\/\1.svg/'))
-	# -if [ '$(FIGS)' ]; then \
-	# 	echo 'making $(FIGS)'; \
-	# 	make $(FIGS); \
-	# fi
-	$(LATEXMLPOST) --format=html5 $(foreach bib,$(BIBS),--bibliography=$(bib)) $(LATEXMLPOSTFLAGS) --destination=$@ $<
 
 
 ## 
@@ -147,17 +83,3 @@ $(DISPLAYDIR)/%.svg : %.pdf
 
 $(DISPLAYDIR)/%.png : %.pdf
 	convert -density 300 $< -flatten $@
-
-##
-# automatic index.html creation
-
-# this is not a rule for index.html since then if someone creates index.tex this will take precedence
-skelml.index ::
-	echo '<html xmlns="http://www.w3.org/1999/xhtml"> <head> <title></title> <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8"/> <link rel="stylesheet" href="pandoc.css" type="text/css" /></head> <body>' >display/index.html
-	echo '<h1>html files in this repository</h1><ul>' >> display/index.html
-	for x in $$(echo display/*html | sed -e 's/\<index.html\>//' | sed -e 's_\<display/__g'); do echo "<li><a href=\"$${x}\">$${x}</a></li>" >> display/index.html; done
-	echo '</ul><p>Create your own <code>index.md</code> file to make this look nicer.</p>' >> display/index.html
-	echo '</body></html>' >> display/index.html
-
-
-
