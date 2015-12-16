@@ -7,7 +7,7 @@ SHELL = /bin/bash
 # which lives in the master branch and is automatically pushed over
 include config.mk
 
-PANDOC_HTML_OPTS = -c resources/pandoc.css --mathjax=https:////cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+PANDOC_HTML_OPTS = -c resources/pandoc.css
 
 MD_HTML = $(patsubst %.md,$(DISPLAYDIR)/%.html,$(MDFILES))
 TEX_HTML = $(patsubst %.tex,$(DISPLAYDIR)/%.html,$(TEXFILES))
@@ -42,7 +42,7 @@ publish : display
 	cp -r display/* .
 	UPFILES=$$(find display/ -type f | sed -e 's_^display/__'); \
 		if [ ! -z "$$UPFILES" ]; then git add $$UPFILES; fi
-	git commit -a -m 'automatic update of html'
+	git diff-index --quiet HEAD || git commit -a -m 'automatic update of html'
 	git checkout $(GITBRANCH)
 
 # set up a clean gh-pages branch
