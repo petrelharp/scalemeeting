@@ -5,7 +5,7 @@
 **Saturday, February 20th; 10am-4:00pm**,
 at the University of Southern California.
 
-*Register* on [this page](register.html).
+*Register* on [this page](https://docs.google.com/forms/d/1iHab0cZdJmVOGRlg1awatJys8_unmMaHeV6BWmYTRTw/viewform).
 
 In a nutshell, this is a regional meeting designed to offer a targeted avenue for interaction between the members of the evolutionary genetics community of Southern California (broadly construed as the geographic region between Santa Barbara and San Diego). We welcome people from anywhere, but the meetings will generally be held at institutions that offer easy and inexpensive access (e.g. by rail) to academics in the Southern California region.
 

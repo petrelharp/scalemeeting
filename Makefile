@@ -20,8 +20,6 @@ GITBRANCH := $(shell git symbolic-ref -q --short HEAD)
 # but beware, cruft will start to build up.
 display : clean
 	make $(HTMLS)
-	# don't want to overwrite index.html if it is already there
-	find display -maxdepth 1 -name "index.html" | grep -q . || make skelml.index
 
 htmls :
 	make $(HTMLS)
